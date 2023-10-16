@@ -24,38 +24,40 @@ disp("Number of Dog Photos: " + length(jpgFilesD))
 dCount = length(jpgFilesD);
 
 %Input array for net
-inputArray = zeros(3072, (dCount + cCount));
+inputArray = zeros(2500, (dCount + cCount));
 test = inputArray(:,1);
-targetsP = zeros(1,(dCount + cCount));
+targetsP = zeros(2,(dCount + cCount));
 
 for k = 1:cCount
     baseName = jpgFilesC(k).name;
     fullName = fullfile(catsDir,baseName);
     pic = imread(fullName);
+    pic = rgb2gray(pic);
     fprintf(1, 'Now reading %s\n', fullName);
     %Target downsample size
-    targetSize = [32,32];
+    targetSize = [50 50];
     % Normalize image input
     downSample = imresize(pic, targetSize);
     elems = numel(downSample);
     flattened = reshape(downSample,[elems,1]);
     inputArray(:,k) = flattened;
-    targetsP(1,k) = 1;
+    targetsP(:,k) = [1; 0];
 end
 
 for k = (1+cCount):(dCount + cCount)
     baseName = jpgFilesD(k-cCount).name;
     fullName = fullfile(dogsDir,baseName);
     pic = imread(fullName);
+    pic = rgb2gray(pic);
     fprintf(1, 'Now reading %s\n', fullName);
     %Target downsample size
-    targetSize = [32,32];
+    targetSize = [50 50];
     % Normalize image input
     downSample = imresize(pic, targetSize);
     elems = numel(downSample);
     flattened = reshape(downSample,[elems,1]);
     inputArray(:,k) = flattened;
-    targetsP(1,k) = 0;
+    targetsP(:,k) = [0, 1];
 end
 
 net = feedforwardnet(10)

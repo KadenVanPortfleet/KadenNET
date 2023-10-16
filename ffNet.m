@@ -27,9 +27,9 @@
 %-----------
 targetSize = [512, 512];
 
-pic = imread('cats\cat_1.jpg');
+pic = imread('cats\cat_2.jpg');
 imshow(pic)
-resultDS = imresize(pic, [32 32]);
+resultDS = imresize(pic, [128 128]);
 % cropWindow = centerCropWindow2d(size(pic), targetSize);
 % 
 % 
